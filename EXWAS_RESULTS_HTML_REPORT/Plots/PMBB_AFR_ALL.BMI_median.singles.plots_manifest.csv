@@ -1,0 +1,2 @@
+cohort,phenotype,CHR,POS,MarkerID,Allele1,Allele2,AC_Allele2,AF_Allele2,MissingRate,BETA,SE,Tstat,var,p.value,N,results_file,singles_manhattan,singles_qq
+PMBB_AFR_ALL,BMI_median,22,46536830,22_46536830_C_CAG,C,CAG,15,0.000729501,0.0,-2.67372,2.08064,-0.617618,0.230996,0.1987773,10281,PMBB_AFR_ALL.BMI_median.exwas_singles.saige.gz,Plots/PMBB_AFR_ALL.BMI_median.singles.manhattan_vertical.png,Plots/PMBB_AFR_ALL.BMI_median.singles.qq.png

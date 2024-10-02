@@ -1,0 +1,122 @@
+[
+    {
+        "cohort": "PMBB_EUR_ALL",
+        "mean": 28.569082684091477,
+        "std": 6.140559551370472,
+        "min": 12.8,
+        "percentile_25": 24.3,
+        "median": 27.56,
+        "percentile_75": 31.7,
+        "max": 70.8
+    },
+    {
+        "cohort": "PMBB_EUR_ALL",
+        "mean": 91.49216112303291,
+        "std": 32.99594212432857,
+        "min": 0.0,
+        "percentile_25": 69.0,
+        "median": 89.0,
+        "percentile_75": 112.0,
+        "max": 348.0
+    },
+    {
+        "cohort": "PMBB_EUR_F",
+        "mean": 28.23884633738965,
+        "std": 6.929427752848993,
+        "min": 13.2,
+        "percentile_25": 23.1,
+        "median": 26.8,
+        "percentile_75": 31.88,
+        "max": 70.62
+    },
+    {
+        "cohort": "PMBB_EUR_F",
+        "mean": 97.87552660005402,
+        "std": 32.99713128057708,
+        "min": 9.0,
+        "percentile_25": 76.0,
+        "median": 96.5,
+        "percentile_75": 118.5,
+        "max": 335.0
+    },
+    {
+        "cohort": "PMBB_EUR_M",
+        "mean": 28.840814463350785,
+        "std": 5.390879477348992,
+        "min": 12.8,
+        "percentile_25": 25.1,
+        "median": 28.0,
+        "percentile_75": 31.6,
+        "max": 70.8
+    },
+    {
+        "cohort": "PMBB_EUR_M",
+        "mean": 86.44678175026681,
+        "std": 32.11102410440856,
+        "min": 0.0,
+        "percentile_25": 64.0,
+        "median": 83.0,
+        "percentile_75": 107.0,
+        "max": 348.0
+    },
+    {
+        "cohort": "PMBB_AFR_ALL",
+        "mean": 32.340143468534194,
+        "std": 8.214032374335561,
+        "min": 13.965,
+        "percentile_25": 26.5,
+        "median": 30.965,
+        "percentile_75": 36.97,
+        "max": 82.79
+    },
+    {
+        "cohort": "PMBB_AFR_ALL",
+        "mean": 98.8281500678761,
+        "std": 31.882869978188943,
+        "min": 5.0,
+        "percentile_25": 77.0,
+        "median": 97.0,
+        "percentile_75": 118.0,
+        "max": 450.0
+    },
+    {
+        "cohort": "PMBB_AFR_F",
+        "mean": 33.4918025151374,
+        "std": 8.51210305550005,
+        "min": 14.01,
+        "percentile_25": 27.35,
+        "median": 32.34,
+        "percentile_75": 38.6,
+        "max": 77.53999999999999
+    },
+    {
+        "cohort": "PMBB_AFR_F",
+        "mean": 101.33590722254844,
+        "std": 31.49373702613868,
+        "min": 5.0,
+        "percentile_25": 80.0,
+        "median": 99.5,
+        "percentile_75": 120.0,
+        "max": 450.0
+    },
+    {
+        "cohort": "PMBB_AFR_M",
+        "mean": 30.408415364583337,
+        "std": 7.291549245296637,
+        "min": 13.965,
+        "percentile_25": 25.6,
+        "median": 29.2,
+        "percentile_75": 34.015,
+        "max": 82.79
+    },
+    {
+        "cohort": "PMBB_AFR_M",
+        "mean": 94.54888109552438,
+        "std": 32.09194701788108,
+        "min": 9.0,
+        "percentile_25": 72.0,
+        "median": 92.0,
+        "percentile_75": 114.0,
+        "max": 364.0
+    }
+]

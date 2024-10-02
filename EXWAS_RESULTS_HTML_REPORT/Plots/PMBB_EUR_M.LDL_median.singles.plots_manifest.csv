@@ -1,0 +1,2 @@
+cohort,phenotype,CHR,POS,MarkerID,Allele1,Allele2,AC_Allele2,AF_Allele2,MissingRate,BETA,SE,Tstat,var,p.value,N,results_file,singles_manhattan,singles_qq
+PMBB_EUR_M,LDL_median,22,19183486,22_19183486_AAGCAGGTCAT_A,AAGCAGGTCAT,A,13,0.000693703,0.0,-11.5955,8.69723,-0.153294,0.0132202,0.1824547,9370,PMBB_EUR_M.LDL_median.exwas_singles.saige.gz,Plots/PMBB_EUR_M.LDL_median.singles.manhattan_vertical.png,Plots/PMBB_EUR_M.LDL_median.singles.qq.png

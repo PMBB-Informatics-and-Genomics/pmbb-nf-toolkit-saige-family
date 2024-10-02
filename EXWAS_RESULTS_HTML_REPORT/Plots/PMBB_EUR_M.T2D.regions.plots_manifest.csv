@@ -1,0 +1,2 @@
+cohort,phenotype,Group,max_MAF,Region,Pvalue,Pvalue_Burden,Pvalue_SKAT,BETA_Burden,SE_Burden,MAC,MAC_case,MAC_control,Number_rare,Number_ultra_rare,results_file,regions_manhattan,regions_qq
+PMBB_EUR_M,T2D,pLoF,0.001,ENSG00000008735,0.207400673614529,0.207400673614529,0.207400673614529,0.103562610566706,0.0821439676536272,1,1,0,0,1,PMBB_EUR_M.T2D.exwas_regions.saige.gz,Plots/PMBB_EUR_M.T2D.pLoF.maf0-001.regions.manhattan.png,Plots/PMBB_EUR_M.T2D.pLoF.maf0-001.regions.qq.png

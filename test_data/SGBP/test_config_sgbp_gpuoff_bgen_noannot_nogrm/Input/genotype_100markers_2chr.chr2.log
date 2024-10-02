@@ -1,0 +1,24 @@
+PLINK v2.00a3LM 64-bit Intel (5 May 2021)
+Options in effect:
+  --chr 2
+  --make-pgen
+  --out genotype_files/genotype_100markers_2chr.chr2
+  --pfile genotype_files/genotype_100markers_2chr
+
+Hostname: krypton14
+Working directory: /path/to/directory/saige_extdata
+Start time: Fri Sep  6 15:00:24 2024
+
+Random number seed: 1725649224
+1031333 MiB RAM detected; reserving 515666 MiB for main workspace.
+Using up to 64 threads (change this with --threads).
+10000 samples (0 females, 0 males, 10000 ambiguous; 10000 founders) loaded from
+genotype_files/genotype_100markers_2chr.psam.
+10 out of 100 variants loaded from
+genotype_files/genotype_100markers_2chr.pvar.
+Note: No phenotype data present.
+Writing genotype_files/genotype_100markers_2chr.chr2.psam ... done.
+Writing genotype_files/genotype_100markers_2chr.chr2.pvar ... done.
+Writing genotype_files/genotype_100markers_2chr.chr2.pgen ... done.
+
+End time: Fri Sep  6 15:00:24 2024

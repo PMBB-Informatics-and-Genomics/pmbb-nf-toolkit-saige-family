@@ -1,0 +1,2 @@
+cohort,phenotype,Group,max_MAF,Region,Pvalue,Pvalue_Burden,Pvalue_SKAT,BETA_Burden,SE_Burden,MAC,Number_rare,Number_ultra_rare,results_file,regions_manhattan,regions_qq
+PMBB_EUR_ALL,BMI_median,pLoF,0.001,ENSG00000008735,0.5491324411212,0.5491324411212,0.5491324411212,-0.149200386187153,0.249057230285474,1,0,1,PMBB_EUR_ALL.BMI_median.exwas_regions.saige.gz,Plots/PMBB_EUR_ALL.BMI_median.pLoF.maf0-001.regions.manhattan.png,Plots/PMBB_EUR_ALL.BMI_median.pLoF.maf0-001.regions.qq.png

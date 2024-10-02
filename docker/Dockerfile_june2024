@@ -1,0 +1,128 @@
+FROM continuumio/miniconda3 as build
+WORKDIR /app
+
+USER $CONDA_USER
+
+# install conda packages in build image
+RUN conda install -y -n base -c conda-forge -c bioconda bgenix scipy pandas seaborn matplotlib conda-build numpy apsw sqlite && \
+    conda clean --all --yes
+
+FROM ubuntu:20.04 as main
+WORKDIR /app
+
+# copy conda packages to main image
+COPY --from=build /opt/conda/ /opt/conda/
+
+CMD ["bash"]
+
+ENV LC_ALL C.UTF-8
+ENV LANG C.UTF-8
+
+# install tools needed to install SAIGE, PLINK, biofilter, and NEAT plots
+CMD apt-get update && \
+    DEBIAN_FRONTEND=noninteractive apt-get install -y \
+    build-essential \
+    cmake \
+    libopenblas-base \
+    python3-pip \
+    r-cran-devtools \
+    wget \
+    tar \
+    unzip  \
+    libtiff5-dev \
+    time \
+    git  \
+    && apt-get clean \
+    && rm -rf /var/lib/apt/lists/*
+
+CMD pip3 install cget
+
+WORKDIR /app
+
+# clone saige git repository
+CMD git clone https://github.com/saigegit/SAIGE.git
+
+# install SAIGE R packages
+CMD Rscript SAIGE/extdata/install_packages.R
+
+# Force step_2 to use 1 single thread. More threads are ineffective
+ENV OMP_NUM_THREADS=1
+
+CMD R CMD INSTALL .
+
+# move SAIGE scripts into $PATH
+CMD mv SAIGE/extdata/step1_fitNULLGLMM.R SAIGE/extdata/step2_SPAtests.R SAIGE/extdata/step3_LDmat.R SAIGE/extdata/createSparseGRM.R
+
+# make scripts executable
+CMD chmod a+x /usr/local/bin/step1_fitNULLGLMM.R
+CMD chmod a+x /usr/local/bin/step2_SPAtests.R
+CMD chmod a+x /usr/local/bin/step3_LDmat.R
+CMD chmod a+x /usr/local/bin/createSparseGRM.R
+
+CMD apt-get update
+
+CMD rm -R SAIGE
+
+USER root
+
+# install PLINK1.9 and PLINK2.0
+CMD mkdir plink
+
+CMD wget -P plink https://s3.amazonaws.com/plink2-assets/alpha5/plink2_linux_x86_64_20240526.zip
+
+CMD wget -P plink https://s3.amazonaws.com/plink1-assets/plink_linux_x86_64_20231211.zip
+
+WORKDIR plink
+
+CMD unzip plink2_linux_x86_64_20240526.zip
+
+CMD unzip plink_linux_x86_64_20231211.zip
+
+CMD rm -rf plink2_linux_x86_64_20240526.zip
+
+CMD rm -rf plink_linux_x86_64_20231211.zip
+
+CMD mv plink2 /usr/bin
+
+CMD mv plink /usr/bin
+
+CMD apt-get remove -y wget
+
+CMD apt-get remove -y unzip
+
+# Symlink these libtiff to overcome an error message we were getting
+WORKDIR /app
+
+CMD ln -s /opt/conda/lib/libtiff.so.6 /opt/conda/lib/libtiff.so.5
+
+# install NEAT plots
+CMD git clone https://github.com/PMBB-Informatics-and-Genomics/NEAT-Plots.git
+
+CMD mv NEAT-Plots/manhattan-plot/ /app/
+
+CMD rm -R NEAT-Plots
+
+WORKDIR /app/manhattan-plot/
+
+CMD conda develop .
+
+# install biofilter
+WORKDIR /app/
+
+ARG BIOFILTER_VERSION=2.4.3
+
+CMD wget https://github.com/RitchieLab/biofilter/releases/download/Biofilter-${BIOFILTER_VERSION}/biofilter-${BIOFILTER_VERSION}.tar.gz -O biofilter.tar.gz
+
+CMD tar -zxvf biofilter.tar.gz --strip-components=1 -C /app/
+
+CMD rm biofilter.tar.gz
+
+CMD /opt/conda/bin/python setup.py install
+
+CMD chmod a+r /app/biofilter.py
+
+CMD chmod a+x /app/biofilter.py
+
+
+
+USER root

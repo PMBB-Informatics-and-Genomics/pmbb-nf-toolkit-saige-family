@@ -1,0 +1,2 @@
+cohort,phenotype,CHR,POS,MarkerID,Allele1,Allele2,AC_Allele2,AF_Allele2,MissingRate,BETA,SE,Tstat,var,p.value,p.value.NA,Is.SPA,AF_case,AF_ctrl,N_case,N_ctrl,N_case_hom,N_case_het,N_ctrl_hom,N_ctrl_het,results_file,singles_manhattan,singles_qq
+PMBB_EUR_F,AAA,22,19183486,22_19183486_AAGCAGGTCAT_A,AAGCAGGTCAT,A,13,0.000620999,0.0,-1.03544,2.19146,-0.215605,0.208225,0.6365776,0.6365776,False,0.0,0.000637005,263,10204,0,0,0,13,PMBB_EUR_F.AAA.exwas_singles.saige.gz,Plots/PMBB_EUR_F.AAA.singles.manhattan_vertical.png,Plots/PMBB_EUR_F.AAA.singles.qq.png

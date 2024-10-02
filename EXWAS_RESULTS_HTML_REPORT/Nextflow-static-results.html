@@ -1,0 +1,1349 @@
+<!DOCTYPE html> <html lang="en"> <head> <meta charset="UTF-8"> <meta name="viewport" content="width=device-width, initial-scale=1.0"> 
+  <title>GWAS Results Report</title> 
+    <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 20px;
+      margin-left: 260px; /* Adjusted to account for the side menu width */
+    }
+    .text-center {
+      text-align: center;
+    }
+    .my-4 {
+      margin: 16px 0;
+    }
+    .mx-auto {
+      margin-left: auto;
+      margin-right: auto;
+    }
+    .text-xl {
+      font-size: 1.25rem;
+    }
+    .font-bold {
+      font-weight: bold;
+    }
+    .flex {
+      display: flex;
+    }
+    .justify-center {
+      justify-content: center;
+    }
+    .justify-between {
+      justify-content: space-between;
+    }
+    .justify-start {
+      justify-content: flex-start;
+    }
+    .justify-end {
+      justify-content: flex-end;
+    }
+    .items-center {
+      align-items: center;
+    }
+    .py-2 {
+      padding-top: 8px;
+      padding-bottom: 8px;
+    }
+    .px-4 {
+      padding-left: 16px;
+      padding-right: 16px;
+    }
+    .bg-blue-500 {
+      background-color: #3b82f6;
+    }
+    .bg-gray-200 {
+      background-color: #e5e7eb;
+    }
+    .text-white {
+      color: white;
+    }
+    .text-3xl {
+      font-size: 1.875rem;
+    }
+    .text-2xl {
+      font-size: 1.5rem;
+    }
+    .table-container {
+      width: 100%;
+      max-width: 960px;
+      margin-top: 20px;
+    }
+    table {
+      width: 100%;
+      margin-left: 10px;
+      background-color: white;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      overflow: hidden;
+    }
+    th, td {
+      padding: 8px;
+      text-align: left;
+    }
+    th {
+      font-size: 10px;
+      background-color: #2d3748;
+      color: white;
+    }
+    td {
+      font-size: 12px;
+    }
+    tr {
+      border-bottom: 1px solid #e2e8f0;
+    }
+    .pagination {
+      display: flex;
+      width: 100%;
+      justify-content: space-between;
+      align-items: center;
+      padding: 16px;
+    }
+    .button {
+      padding: 8px 16px;
+      background-color: #e2e8f0;
+      border-radius: 4px;
+      margin-left: 10px;
+      cursor: pointer;
+    }
+    .button.active {
+      background-color: #3b82f6;
+      color: white;
+      border: 2px solid #3b82f6;
+    }
+    .disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+    }
+    .plot-container {
+      margin-top: 20px;
+      max-width: 2000px;
+      width: 100%;
+      height: auto;
+    }
+    .plot-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 10px 0;
+}
+    .rotated-img {
+        transform: rotate(0deg);
+        max-height: 80vh;  /* Adjust this value to control the height of rotated images */
+    }
+    /* Side Menu Styles */
+    .side-menu {
+      height: 100%;
+      width: 250px; /* Set a fixed width */
+      position: fixed;
+      z-index: 1;
+      top: 0;
+      left: 0;
+      background-color: #111;
+      padding-top: 60px;
+    }
+    .side-menu a {
+      padding: 8px 8px 8px 32px;
+      text-decoration: none;
+      font-size: 18px;
+      color: #818181;
+      display: block;
+      transition: 0.3s;
+    }
+    .side-menu a:hover {
+      color: #f1f1f1;
+    }
+    .side-menu .subcohorts {
+    margin-left: 15px; /* Adjust this value to increase or decrease the indent */
+  }
+
+  .side-menu .subcohort-link {
+    display: block;
+    padding: 5px 0;
+    text-decoration: none;
+    color: #818181; /* Adjust color as needed */
+    margin-left: 50px;
+  }
+
+  .side-menu .subcohort-link:hover {
+    color: #f0f0f0; /* Add a hover effect */
+  }
+
+    .submenu {
+        display: none;
+        padding-left: 20px;
+    }
+    .submenu a {
+        display: block;
+    }
+
+    .submenu.active {
+      display: block;
+    }
+    .statistics {
+      font-size: 1.25rem;
+      line-height: 1.75rem;
+      padding: 20px;
+    }
+    #analysis-descriptions {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      width: 100%;
+    }
+    .filter-container {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin-bottom: 20px;
+      width: 100%;
+    }
+    .filter-container input {
+      padding: 8px;
+      font-size: 16px;
+      margin-right: 10px;
+    }
+    .filter-container button {
+      padding: 8px 16px;
+      background-color: #3b82f6;
+      color: white;
+      border: none;
+      border-radius: 4px;
+      cursor: pointer;
+    }
+    .cohort-buttons {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 10px;
+    }
+    .cohort-button {
+      padding: 10px;
+      background-color: #e5e7eb;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      cursor: pointer;
+      text-align: center;
+      font-size: 14px;
+    }
+    #cards-container {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      gap: 20px;
+      width: 100%;
+    }
+    .card {
+      background-color: #f9f9f9;
+      border: 1px solid #ddd;
+      border-radius: 8px;
+      padding: 16px;
+      width: 300px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+    .card h3 {
+      margin-top: 0;
+    }
+    .tab-container {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .tab-button {
+      padding: 10px 20px;
+      border: none;
+      background-color: #f1f1f1;
+      cursor: pointer;
+      transition: background-color 0.3s;
+    }
+    .tab-button.active {
+      background-color: #ddd;
+    }
+    .tab-content {
+      display: none;
+    }
+    .tab-content.active {
+      display: block;
+    }
+    #method-summary {
+      max-width: 800px;
+      margin: 0 auto;
+      text-align: left;
+    }
+    #method-summary h2, #method-summary h3 {
+      margin-top: 20px;
+    }
+    .image-row {
+    display: flex;
+    flex-wrap: wrap; /* Allow wrapping if there are many images */
+    gap: 20px; /* Add space between each item */
+    justify-content: flex-start; /* Align items at the start of the row */
+}
+
+.plot-item {
+    text-align: center;
+    width: auto; /* Set a fixed width for each plot item */
+    margin-bottom: 20px; /* Add space below each item */
+}
+
+.plot-item h3 {
+    margin-bottom: 10px;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+.plot-image {
+    max-width: 100%;
+    height: auto;
+    display: block;
+    margin: 0 auto;
+}
+
+  </style>
+  
+</head> 
+<body> 
+  <div class="side-menu"> 
+    <a href="http://localhost:8003/Nextflow-static-results.html">Home</a> <!-- Home link -->
+    <a href="#" onclick="showStatsDescription(event)">Phenotype Summary</a> 
+    <!-- <a href="#">Phenotype Summary</a>  -->
+    <a href="#" onclick="toggleSubmenu('results-filter-submenu'); 
+    return false;">Results Filter</a> <div id="results-filter-submenu" class="submenu">
+</div>
+<a href="#" onclick="showMethodSummary(event)">Analysis Logs</a>
+</div> 
+<div class="container"> <h1 id="main-heading" class="text-3xl font-bold mb-4">EXWAS Results Report</h1>
+  <div id="plot-description"></div>
+<div id="plot-tabs" class="text-center my-4"></div>
+<div id="plot-filters" style="display: none;">
+  <select id="plot-phenotype-select"></select>
+  <select id="plot-grouptest-select"></select>
+  <select id="plot-maf-select"></select>
+  <select id="plot-analysis-type-select"></select>
+  <button onclick="filterPlots()">Filter Plots</button>
+</div>
+<div id="plot-container" class="text-center my-4"></div>
+<div id="manhattan-description" style="display: none;">
+  <p style="text-align: left;">
+    This Manhattan plot shows the results of our gene-based burden tests, which aggregate the effects of rare variants within genes.
+    The x-axis represents the genomic position of the genes. The y-axis shows the -log10(p-value) for each gene, 
+    with higher points indicating stronger statistical associations. The red horizontal line denotes the genome-wide 
+    significance threshold (p < 2.5 × 10^-6).
+  </p>
+</div>
+<div id="cohort-buttons" class="cohort-buttons" style="display: none;">
+  <div class="cohort-button">Cohort: AFR_ALL</div>
+  <div class="cohort-button">Cohort: AFR_M</div>
+  <div class="cohort-button">Cohort: AFR_F</div>
+  <div class="cohort-button">Cohort: EUR_ALL</div>
+  <div class="cohort-button">Cohort: EUR_M</div>
+  <div class="cohort-button">Cohort: EUR_F</div>
+  <div class="cohort-button">Cohort: AMR_ALL</div>
+  <div class="cohort-button">Cohort: AMR_M</div>
+  <div class="cohort-button">Cohort: AMR_F</div>
+  <div class="cohort-button">Cohort: EAS_ALL</div>
+  <div class="cohort-button">Cohort: EAS_M</div>
+  <div class="cohort-button">Cohort: EAS_F</div>
+</div>
+<h2 id="hits-table-title" class="text-2xl font-bold mt-8 mb-4 ml-6">Hits Table</h2>
+<div class="filter-container" id="phenotype-filter" style="display: none;">
+<select id="phenotype-select"></select>
+<select id="grouptest-select"></select>
+<select id="maf-select"></select>
+<button onclick="filterResults()">Filter</button>
+
+</div>
+<div id="default-view" class="my-4">
+  <p style="text-align: left;">
+    This report presents the comprehensive findings from an Exome-Wide Association Study (ExWAS) analysis conducted using the state-of-the-art EXWAS Nextflow pipeline. The analysis performed both single-variant and gene-based association tests to identify statistically significant genetic associations with the specified phenotypes.
+  </p>
+  <h2 style="text-align: left;">Getting Started</h2>  
+  <ul style="text-align: left;">
+    <li>Select a population group from the Results Filter in the side menu (AFR, EUR, AMR, EAS).</li>
+    <li>Explore the Phenotype Summary to view distributions of traits across populations.</li>
+    <li>Dive into specific results using the Manhattan and QQ plots.</li>
+    <li>Refer to the Analysis Logs for detailed explanations of data and visualizations.</li>
+  </ul>
+  
+
+  <h2 style="text-align: left;">Key Terms</h2>
+  <ul style="text-align: left;">
+    <li><b>AFR</b>: African ancestry</li>
+    <li><b>EUR</b>: European ancestry</li>
+    <li><b>AMR</b>: Admixed American ancestry</li>
+    <li><b>EAS</b>: East Asian ancestry</li>
+    <li><b>MAF</b>: Minor Allele Frequency</li>
+    <li><b>pLoF</b>: predicted Loss of Function variants</li>
+  </ul>
+
+  <p style="text-align: left;">
+    For support or questions, please contact: <a href="mailto:pmbb_help@pennmedicine.upenn.edu">pmbb_help@pennmedicine.upenn.edu</a>
+  </p>
+  <p class="mt-4" style="text-align: left;">Please select an option from the Results Filter in the side menu to view the data.</p> 
+</div>
+  <div class="table-container">
+  <table id="hits-table">
+    <thead>
+      <tr id="header-row"></tr>
+      <tr id="filter-row"></tr>
+    </thead>
+    <tbody></tbody>
+  </table>
+  <div class="pagination">
+    <div style="flex: 1; display: flex; justify-content: flex-start;">
+      <button id="first-page" class="button"><<</button>
+      <button id="prev-page" class="button"><</button>
+    </div>
+    <div style="flex: 1; display: flex; justify-content: center; margin-right: 10px;">
+      <strong id="page-info"></strong>
+    </div>
+    <div style="flex: 1; display: flex; justify-content: flex-end;">
+      <button id="next-page" class="button">></button>
+      <button id="last-page" class="button">>></button>
+    </div>
+  </div>
+</div>
+<div id="statistics" class="statistics" style="display: none;">
+  <p>Mean: 32</p>
+  <p>STD: 8</p>
+  <p>Min: 13</p>
+  <p>25th %ile: 26</p>
+  <p>Median: 30</p>
+  <p>75th %ile: 36</p>
+  <p>Max: 890</p>
+</div>
+<div id="analysis-descriptions" style="display: none;">
+  <div id="stats-description" class="tab-content">
+    <div class="filter-container">
+      <input type="text" id="filter-input" placeholder="Enter cohort...">
+      <button onclick="filterCards()">Filter</button>
+    </div>
+    <div id="cards-container" class="cohort-buttons"></div>
+  </div>
+</div>
+
+  <div id="method-summary" class="tab-content" style="display: none;">
+    <h2>ExWAS Methods Summary</h2>
+    <h3>Software Versions</h3>
+    <p>SAIGE Version: wzhou88/saige:1.2.0</p>
+    <p>Python .exe: /opt/conda/bin/python</p>
+    <p>Plink: plink/2.0-20210505</p>
+
+    <h3>Workflow Set-Up</h3>
+    <p>Cohorts: AMR_ALL,AMR_F,AMR_M,AFR_ALL,AFR_F,AFR_M,EAS_ALL,EAS_F,EAS_M,EUR_ALL,EUR_F,EUR_M</p>
+    <p>Sex-Stratified Cohorts: AMR_F, AMR_M, AFR_F, AFR_M, EAS_F, EAS_M, EUR_F, EUR_M</p>
+    <p>Binary Phenotypes: T2D, AAA</p>
+    <p>Quantitative Phenotypes: BMI_median, LDL_median</p>
+
+    <h3>Main Input Files</h3>
+    <p>Phenotype and Covariate csv: /project/pmbb_codeworks/datasets/CodeWorks_Test_Data/cleaned_test_pheno_covars.csv</p>
+    <p>Cohort Membership csv: /project/pmbb_codeworks/datasets/PMBB_Extra/Sample_Lists/Exome_sample_table.csv</p>
+    <p>Sample ID Column: PMBB_ID</p>
+
+    <h3>Pre-Step 1 Plink QC</h3>
+    <p>Plink Prefix: /project/pmbb_codeworks/datasets/PMBB-2.0_exome_GL_norm/plink/PMBB-Release-2020-2.0_genetic_exome_GL_norm</p>
+    <p>Min MAF: 0.01</p>
+    <p>Max Missingness per Variant: 0.01</p>
+    <p>MAX HWE P-Value: 1e-06</p>
+
+    <h3>SAIGE Step 1 Configuration</h3>
+    <p>Step 1 Script Path: /usr/local/bin/step1_fitNULLGLMM.R</p>
+    <p>Categorical Covariates: SEX</p>
+    <p>Sex-Stratified Categorical Covariates:</p>
+    <p>Continuous Covariates: DATA_FREEZE_AGE, Exome_PC1, Exome_PC2, Exome_PC3, Exome_PC4</p>
+    <p>Sex-Stratified Continuous Covariates: DATA_FREEZE_AGE, Exome_PC1, Exome_PC2, Exome_PC3, Exome_PC4</p>
+
+    <h3>SAIGE-GENE (Step 2) Configuration</h3>
+    <p>Step 2 Script Path: /usr/local/bin/step2_SPAtests.R</p>
+    <p>Exome Plink Prefix: /project/pmbb_codeworks/datasets/PMBB-2.0_exome_GL_norm/plink/PMBB-Release-2020-2.0_genetic_exome_GL_norm</p>
+    <p>Chr-Separated Group File Path: /project/pmbb_codeworks/datasets/New_VEP_Annotations_2.0/SAIGE_Sets/subset.</p>
+    <p>Min MAF: 0</p>
+    <p>Min MAC: 0.5</p>
+    <p>Use Firth?: TRUE</p>
+    <p>Firth Cutoff: 0.1</p>
+    <p>Leave-One-Chr-Out (LOCO): FALSE</p>
+
+    <h3>Gene Burden Variant Criteria</h3>
+    <p>Max MAF Cutoffs:</p>
+    <ul>
+      <li>0.0001</li>
+      <li>0.001</li>
+      <li>0.01</li>
+    </ul>
+    <p>Annotation Groups:</p>
+    <ul>
+      <li>pLoF</li>
+      <li>damaging_missense</li>
+      <li>other_missense</li>
+      <li>synonymous</li>
+      <li>pLoF|damaging_missense</li>
+      <li>pLoF|damaging_missense|other_missense|synonymous</li>
+    </ul>
+
+    <h3>Post-Processing Configuration</h3>
+    <p>Gene Coordinates File: /project/pmbb_codeworks/datasets/ENSEMBL/homo_sapiens_111_b38.txt</p>
+    <p>P Threshold for Top Hits: 1e-05</p>
+  </div>
+</div>
+</div> 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/PapaParse/5.3.0/papaparse.min.js"></script> 
+<script>
+  document.addEventListener('DOMContentLoaded', () => {
+      console.log('Script loaded and DOM fully parsed');
+  
+      let selectedCohort = '';
+      let selectedPhenotype = '';
+      let selectedGroupTest = '';
+      let selectedMaf = '';
+      let selectedPlotPhenotype = '';
+      let selectedPlotGroupTest = '';
+      let selectedPlotMaf = '';
+      let allData = [];
+      let filteredData = [];
+      let columns = [];
+      let currentFilters = {};
+      let uniqueValues = {};
+      let plotManifest = [];
+      let cohorts = [];
+      let selectedPlotAnalysisType = '';
+      let plotFiltersApplied = false;
+      let phenotypes = []; // Global variable to store phenotypes fetched from CSV
+
+      function initializePlotDisplay() {
+          document.getElementById('plot-tabs').style.display = 'none';
+          document.getElementById('plot-container').innerHTML = '<p>Please select which plots to display using the filters above.</p>';
+      }
+      function setDefaultPlotFilters() {
+    const phenotypeSelect = document.getElementById('plot-phenotype-select');
+    const groupTestSelect = document.getElementById('plot-grouptest-select');
+    const mafSelect = document.getElementById('plot-maf-select');
+    const analysisTypeSelect = document.getElementById('plot-analysis-type-select');
+
+    // Set default values if options are available
+    if (phenotypeSelect.options.length > 1) {
+        phenotypeSelect.selectedIndex = 1;
+    }
+    if (groupTestSelect.options.length > 1) {
+        groupTestSelect.selectedIndex = 1;
+    }
+    if (mafSelect.options.length > 1) {
+        mafSelect.selectedIndex = 1;
+    }
+    if (analysisTypeSelect.options.length > 1) {
+        analysisTypeSelect.selectedIndex = 1;
+    }
+
+    // Update the selected values
+    selectedPlotPhenotype = phenotypeSelect.value;
+    selectedPlotGroupTest = groupTestSelect.value;
+    selectedPlotMaf = mafSelect.value;
+    selectedPlotAnalysisType = analysisTypeSelect.value;
+}
+function updatePhenotypePlotDescription(phenotype) {
+    const plotDescription = `
+      <p style="text-align: left;">
+        These violin plots display the distribution of <b>${phenotype}</b> values across different population groups and sex. 
+        The width of each 'violin' represents the frequency of data points, while the internal box plot shows the median 
+        and interquartile range.
+      </p>
+
+      <h3 style="text-align: left;">Interpreting the Plots</h3>
+      <ul style="text-align: left;">
+        <li><b>X-axis labels</b>: Population group and sex (e.g., AFR_ALL, EUR_F)</li>
+        <li><b>Y-axis</b>: ${phenotype} value</li>
+        <li><b>Violin width</b>: Frequency of data points at that value</li>
+        <li><b>Box plot</b>: Median (middle line), 1st and 3rd quartiles (box edges)</li>
+      </ul>
+    `;
+
+    // Insert the description into the container
+    document.getElementById('plot-description').innerHTML = plotDescription;
+}
+  
+function setMainHeading(title) {
+  const mainHeading = document.getElementById('main-heading');
+  mainHeading.textContent = title;
+
+  // Add explanation and interpretation of the plots
+  if (title === 'Phenotype Summary Plots') {
+    const plotDescription = `
+      <p style="text-align: left;">
+        These violin plots display the distribution of <b>$\{phenotype}</b> values across different population groups and sex. 
+        The width of each 'violin' represents the frequency of data points, while the internal box plot shows the median 
+        and interquartile range.
+      </p>
+
+      <h3 style="text-align: left;">Interpreting the Plots</h3>
+      <ul style="text-align: left;">
+        <li><b>X-axis labels</b>: Population group and sex (e.g., AFR_ALL, EUR_F)</li>
+        <li><b>Y-axis</b>: Phenotype value</li>
+        <li><b>Violin width</b>: Frequency of data points at that value</li>
+        <li><b>Box plot</b>: Median (middle line), 1st and 3rd quartiles (box edges)</li>
+      </ul>
+    `;
+
+    // Insert the description into the container
+    document.getElementById('plot-description').innerHTML = plotDescription;
+  } else {
+    // Clear the description if the title is not "Phenotype Summary Plots"
+    document.getElementById('plot-description').innerHTML = '';
+  }
+}
+
+
+      function resetPlotDisplay() {
+          plotFiltersApplied = false;
+          selectedPlotPhenotype = '';
+          selectedPlotGroupTest = '';
+          selectedPlotMaf = '';
+          selectedPlotAnalysisType = '';
+          document.getElementById('plot-tabs').style.display = 'none';
+          document.getElementById('plot-container').innerHTML = '<p>Please select which plots to display using the filters above.</p>';
+          
+          // Reset the filter dropdowns
+          document.getElementById('plot-phenotype-select').value = '';
+          document.getElementById('plot-grouptest-select').value = '';
+          document.getElementById('plot-maf-select').value = '';
+          document.getElementById('plot-analysis-type-select').value = '';
+      }
+  
+      // Call this function when the page loads
+      document.addEventListener('DOMContentLoaded', initializePlotDisplay);
+  
+      function filterTable() {
+    filteredData = allData.filter(row => {
+        return columns.every(col => {
+            const columnValue = (row[col] || '').toString().toUpperCase();
+            const filterValue = (currentFilters[col] || '').toUpperCase();
+            if (col === 'analysis_type') {
+                return filterValue === '' || columnValue === filterValue; // Match exact analysis type
+            }
+            return columnValue.includes(filterValue);
+        });
+    });
+    renderTableBody(filteredData);
+}
+
+  
+      window.toggleSubmenu = function(id) {
+          const submenu = document.getElementById(id);
+          if (submenu.style.display === 'none' || submenu.style.display === '') {
+              submenu.style.display = 'block';
+          } else {
+              submenu.style.display = 'none';
+          }
+      }
+  
+      window.showAnalysisDescriptions = function(event) {
+          event.preventDefault();
+          resetPlotDisplay();
+          document.getElementById('default-view').style.display = 'none';
+          document.getElementById('statistics').style.display = 'none';
+          document.querySelector('.table-container').style.display = 'none';
+          document.getElementById('plot-tabs').style.display = 'none';
+          document.getElementById('plot-filters').style.display = 'none';
+          document.getElementById('plot-container').style.display = 'none';
+          document.getElementById('cohort-buttons').style.display = 'none';
+          document.getElementById('hits-table-title').style.display = 'none';
+          document.getElementById('phenotype-filter').style.display = 'none';
+          document.getElementById('analysis-descriptions').style.display = 'block';
+          toggleSubmenu('analysis-description-submenu');
+      }
+  
+      window.showStatsDescription = function(event) {
+    event.preventDefault();
+    resetPlotDisplay();
+    const firstPhenotype = phenotypes.length > 0 ? phenotypes[0] : 'Selected Phenotype';
+    
+    displayPhenotypeBarPlots(phenotypes); // Call function to display the plots
+    setMainHeading('Phenotype Summary Plots');
+    updatePhenotypePlotDescription(firstPhenotype);
+
+    // Clear out any old content
+    document.getElementById('default-view').style.display = 'none';
+    document.getElementById('statistics').style.display = 'none';
+    document.querySelector('.table-container').style.display = 'none';
+    document.getElementById('plot-tabs').style.display = 'none';
+    document.getElementById('plot-filters').style.display = 'none';
+    document.getElementById('plot-container').style.display = 'block'; // Ensure plot container is visible
+    document.getElementById('cohort-buttons').style.display = 'none';
+    document.getElementById('hits-table-title').style.display = 'none';
+    document.getElementById('phenotype-filter').style.display = 'none';
+
+    // Hide other sections (analysis logs, method summary)
+    document.getElementById('analysis-descriptions').style.display = 'none';
+    document.getElementById('method-summary').style.display = 'none';
+};
+
+
+
+  
+      window.showMethodSummary = function(event) {
+          event.preventDefault();
+          resetPlotDisplay();
+          setMainHeading('Analysis Logs');
+
+          document.getElementById('default-view').style.display = 'none';
+          document.getElementById('statistics').style.display = 'none';
+          document.querySelector('.table-container').style.display = 'none';
+          document.getElementById('plot-tabs').style.display = 'none';
+          document.getElementById('plot-filters').style.display = 'none';
+          document.getElementById('plot-container').style.display = 'none';
+          document.getElementById('cohort-buttons').style.display = 'none';
+          document.getElementById('hits-table-title').style.display = 'none';
+          document.getElementById('phenotype-filter').style.display = 'none';
+          document.getElementById('analysis-descriptions').style.display = 'block';
+          document.getElementById('stats-description').style.display = 'none';
+          document.getElementById('method-summary').style.display = 'block';
+      }
+  
+      window.showCohort = function(cohort) {
+    selectedCohort = cohort;
+    resetPlotDisplay();
+    setMainHeading(`EXWAS Results Report: ${cohort} Results`);
+
+    
+    // Clear out any old content and hide irrelevant sections
+    document.getElementById('default-view').style.display = 'none';
+    document.getElementById('statistics').style.display = 'none';
+    document.querySelector('.table-container').style.display = 'block';  // Show the table for results
+    document.getElementById('plot-filters').style.display = 'block';     // Show plot filters
+    document.getElementById('plot-container').style.display = 'block';   // Show plot container
+    document.getElementById('cohort-buttons').style.display = 'none';    // Hide cohort buttons
+    document.getElementById('hits-table-title').style.display = 'block'; // Show the hits table title
+    document.getElementById('phenotype-filter').style.display = 'none';  // Hide phenotype filters
+
+    // Hide other sections like analysis descriptions and method summary
+    document.getElementById('analysis-descriptions').style.display = 'none';
+    document.getElementById('method-summary').style.display = 'none';
+
+    // Update the main heading
+    const mainHeading = document.getElementById('main-heading');
+    mainHeading.textContent = `EXWAS Results Report: ${cohort} Results`;
+
+    // Filter the data based on the selected cohort
+    filteredData = allData.filter(row => row.cohort === selectedCohort);
+
+    renderHitsTable(filteredData);
+    updatePlotFilterOptions();
+
+        // Set default values for plot filters
+        setDefaultPlotFilters();
+
+// Automatically trigger plot filtering
+filterPlots();
+};
+
+  
+      window.filterPlots = function() {
+    selectedPlotPhenotype = document.getElementById('plot-phenotype-select').value;
+    selectedPlotGroupTest = document.getElementById('plot-grouptest-select').value;
+    selectedPlotMaf = document.getElementById('plot-maf-select').value;
+    selectedPlotAnalysisType = document.getElementById('plot-analysis-type-select').value;
+
+    console.log('Selected filters for plotting:', {
+        selectedCohort,
+        selectedPlotPhenotype,
+        selectedPlotGroupTest,
+        selectedPlotMaf,
+        selectedPlotAnalysisType
+    });
+
+    if (selectedPlotPhenotype || selectedPlotGroupTest || selectedPlotMaf || selectedPlotAnalysisType) {
+        plotFiltersApplied = true;
+        renderPlotTabs();
+
+        // Convert plot MAF format to table MAF format
+        // Extract the numeric part of the MAF (removing 'maf' and '-')
+        let tableMaf = selectedPlotMaf.replace('maf', '').replace('-', '');
+
+// Handle different MAF formats more explicitly
+if (selectedPlotMaf === 'maf0-001') {
+    tableMaf = '0.001';  // Correct handling for maf0-001 -> 0.001
+} else if (selectedPlotMaf === 'maf0-01') {
+    tableMaf = '0.01';   // Correct handling for maf0-01 -> 0.01
+} else if (selectedPlotMaf === 'maf0-1') {
+    tableMaf = '0.1';    // Correct handling for maf0-1 -> 0.1
+} else {
+    console.log('Unexpected MAF format:', selectedPlotMaf);
+}
+
+
+console.log('Converted MAF for table:', tableMaf);
+
+        
+        console.log('Converted MAF for table:', tableMaf);
+        console.log('Filtering table data...');
+        console.log('Total rows before filtering:', allData.length);
+
+        // Filter the table data
+        filteredData = allData.filter(row => {
+    const cohortMatch = row.cohort.toLowerCase() === selectedCohort.toLowerCase();
+    const phenotypeMatch = row.phenotype.toLowerCase() === selectedPlotPhenotype.toLowerCase();
+    const groupTestMatch = row.annot.toLowerCase().includes(selectedPlotGroupTest.toLowerCase());
+
+    // Add the analysis type filter
+    const analysisTypeMatch = selectedPlotAnalysisType 
+        ? row.analysis_type && row.analysis_type.trim().toLowerCase() === selectedPlotAnalysisType.trim().toLowerCase()
+        : true;  // If no analysis type selected, include all rows
+
+    // Parse the row's max_maf as a float
+    const rowMaf = parseFloat(row.max_maf);
+    const tableMafFloat = parseFloat(tableMaf);
+
+    // Modify the condition to only include rows where max_maf matches the table MAF exactly
+    const mafMatch = !isNaN(rowMaf) && rowMaf === tableMafFloat;
+
+    console.log('Row MAF:', rowMaf, 'Table MAF:', tableMafFloat, 'MAF Match:', mafMatch, 'Analysis Type Match:', analysisTypeMatch);
+
+    // Only return rows where all conditions are met
+    return cohortMatch && phenotypeMatch && groupTestMatch && mafMatch && analysisTypeMatch;
+});
+
+console.log('Total rows after filtering:', filteredData.length);
+renderHitsTable(filteredData);
+
+
+
+
+    } else {
+        alert('Please select all filter options before applying the filter.');
+        document.getElementById('plot-tabs').style.display = 'none';
+        document.getElementById('plot-container').innerHTML = '<p>Please select which plots to display using the filters above.</p>';
+    }
+};
+
+
+  
+      function showDefaultView() {
+          document.getElementById('default-view').style.display = 'block';
+          document.getElementById('statistics').style.display = 'none';
+          document.querySelector('.table-container').style.display = 'none';
+          document.getElementById('plot-tabs').style.display = 'none';
+          document.getElementById('plot-filters').style.display = 'none';
+          document.getElementById('cohort-buttons').style.display = 'none';
+          document.getElementById('hits-table-title').style.display = 'none';
+          document.getElementById('phenotype-filter').style.display = 'none';
+          document.getElementById('analysis-descriptions').style.display = 'none';
+  
+          // Reset the main heading
+          const mainHeading = document.getElementById('main-heading');
+          mainHeading.textContent = 'EXWAS Results Report';
+      }
+  
+      function renderPlotTabs() {
+    const plotTabs = document.getElementById('plot-tabs');
+    const plotContainer = document.getElementById('plot-container');
+
+    if (!plotFiltersApplied) {
+        plotTabs.style.display = 'none';
+        plotContainer.innerHTML = '<p>Please select which plots to display using the filters above.</p>';
+        return;
+    }
+
+    plotTabs.style.display = 'block';
+    let activeTab = 'manhattan';
+
+    function renderPlot() {
+    plotTabs.innerHTML = `
+        <div class="button-container">
+            <button id="manhattan-btn" class="button ${activeTab === 'manhattan' ? 'active' : ''}">Manhattan Plot</button>
+            <button id="qq-btn" class="button ${activeTab === 'qq' ? 'active' : ''}">QQ Plot</button>
+        </div>
+    `;
+
+    // Determine the plot type
+    let plotType;
+    if (selectedPlotAnalysisType === 'singles') {
+        plotType = activeTab === 'manhattan' ? 'manhattan_vertical' : 'qq';
+    } else if (selectedPlotAnalysisType === 'regions') {
+        plotType = activeTab === 'manhattan' ? 'manhattan' : 'qq';
+    } else {
+        plotType = activeTab === 'manhattan' ? 'manhattan' : 'qq';
+    }
+
+    // Construct the file path dynamically based on the filter selection
+    let fileName;
+    if (selectedPlotAnalysisType === 'singles') {
+        fileName = `PMBB_${selectedCohort}.${selectedPlotPhenotype}.singles.${plotType}.png`;
+    } else {
+        fileName = `PMBB_${selectedCohort}.${selectedPlotPhenotype}.${selectedPlotGroupTest}.${selectedPlotMaf}.${selectedPlotAnalysisType}.${plotType}.png`;
+    }
+
+    const filePath = `/Plots/${fileName}`;
+    console.log('Constructed file path:', filePath);
+
+    // Display the plot
+    plotContainer.innerHTML = `
+        <img src="${filePath}" 
+             alt="${plotType} Plot" 
+             class="mx-auto plot-image ${plotType === 'manhattan_vertical' ? 'rotated-img' : ''}"
+             onerror="this.onerror=null; this.src='/path/to/placeholder-image.png'; this.alt='Cohort Not Analyzed'"/>
+    `;
+
+    // Toggle the description based on the active tab
+    if (activeTab === 'manhattan') {
+        // Show Manhattan plot text, hide QQ plot text
+        plotContainer.innerHTML += `
+            <p style="text-align: left; margin-top: 20px;" id="manhattan-description">
+  <b>Note:While selecting the singles plot, group test and maf filters are not being applied.</b> 
+</p>
+<p style="text-align: left; margin-top: 10px;">
+  This Manhattan plot shows the results of our gene-based burden tests, which aggregate the effects of rare variants within genes.
+  The x-axis represents the genomic position of the genes. The y-axis shows the -log10(p-value) for each gene, 
+  with higher points indicating stronger statistical associations. The red horizontal line denotes the genome-wide 
+  significance threshold (p < 2.5 × 10^-6).
+</p>
+
+        `;
+    } else if (activeTab === 'qq') {
+        // Show QQ plot text, hide Manhattan plot text
+        plotContainer.innerHTML += `
+        <p style="text-align: left; margin-top: 20px;" id="manhattan-description">
+  <b>Note:While selecting the singles plot, group test and maf filters are not being applied.</b> 
+</p>
+            <p style="text-align: left; margin-top: 20px;" id="qq-description">
+                This QQ plot provides a graphical assessment of how well our observed p-values from the gene burden tests 
+                match the expected p-values under the null hypothesis of no associations.
+            </p>
+        `;
+    }
+
+    // Add event listeners to toggle between Manhattan and QQ plot
+    document.getElementById('manhattan-btn').addEventListener('click', () => {
+        activeTab = 'manhattan';
+        renderPlot();
+    });
+
+    document.getElementById('qq-btn').addEventListener('click', () => {
+        activeTab = 'qq';
+        renderPlot();
+    });
+}
+
+    renderPlot();
+}
+
+
+
+
+  
+      function parseCSV(csv, delimiter = ',') {
+          const lines = csv.split('\n');
+          const headers = lines[0].split(delimiter).map(header => header.trim());
+          const data = lines.slice(1).map(line => {
+              const values = line.split(delimiter);
+              return headers.reduce((obj, header, index) => {
+                  obj[header] = values[index] ? values[index].trim() : '';
+                  return obj;
+              }, {});
+          });
+          return { headers, data };
+      }
+  
+      function renderTableBody(data) {
+          const tbody = document.querySelector('#hits-table tbody');
+          const rowsPerPage = 10;
+          const paginatedData = data.slice(0, rowsPerPage);
+          
+          tbody.innerHTML = paginatedData.map(row => `
+              <tr>
+                  ${columns.map(col => `<td>${row[col] || ''}</td>`).join('')}
+              </tr>
+          `).join('');
+  
+          updatePagination(data.length);
+      }
+  
+      function renderHitsTable(data) {
+        console.log('Rendering hits table with', data.length, 'rows');
+    const hitsTable = document.getElementById('hits-table');
+    const headerRow = document.getElementById('header-row');
+    const filterRow = document.getElementById('filter-row');
+    const tbody = document.querySelector('#hits-table tbody');
+
+    headerRow.innerHTML = '';
+    filterRow.innerHTML = '';
+
+    columns.forEach(col => {
+        headerRow.innerHTML += `<th>${col}</th>`;
+        const input = document.createElement('input');
+        input.type = 'text';
+        input.placeholder = `Search ${col}`;
+        input.dataset.column = col;
+        input.value = currentFilters[col] || '';
+        
+        input.addEventListener('input', function() {
+            currentFilters[col] = this.value;
+            filterTable();
+        });
+
+        const th = document.createElement('th');
+        th.appendChild(input);
+        filterRow.appendChild(th);
+    });
+
+    if (data.length === 0) {
+        tbody.innerHTML = `<tr><td colspan="${columns.length}">No matching data found</td></tr>`;
+    } else {
+        renderTableBody(data);
+    }
+          let currentPage = 0;
+          const rowsPerPage = 10;
+  
+          function paginate(dataToRender) {
+              const paginatedData = dataToRender.slice(currentPage * rowsPerPage, (currentPage + 1) * rowsPerPage);
+              renderTableBody(paginatedData);
+  
+              document.getElementById('page-info').innerText = `Page ${currentPage + 1} of ${Math.ceil(dataToRender.length / rowsPerPage)}`;
+  
+              document.getElementById('first-page').disabled = currentPage === 0;
+              document.getElementById('prev-page').disabled = currentPage === 0;
+              document.getElementById('next-page').disabled = currentPage === Math.ceil(dataToRender.length / rowsPerPage) - 1;
+              document.getElementById('last-page').disabled = currentPage === Math.ceil(dataToRender.length / rowsPerPage) - 1;
+          }
+  
+          document.getElementById('first-page').addEventListener('click', () => {
+              currentPage = 0;
+              paginate(filteredData);
+          });
+  
+          document.getElementById('prev-page').addEventListener('click', () => {
+              if (currentPage > 0) {
+                  currentPage--;
+                  paginate(filteredData);
+              }
+          });
+  
+          document.getElementById('next-page').addEventListener('click', () => {
+            if (currentPage < Math.ceil(filteredData.length / rowsPerPage) - 1) {
+                currentPage++;
+                paginate(filteredData);
+            }
+        });
+
+        document.getElementById('last-page').addEventListener('click', () => {
+            currentPage = Math.ceil(filteredData.length / rowsPerPage) - 1;
+            paginate(filteredData);
+        });
+
+        paginate(filteredData);
+    }
+    
+    function displayPhenotypeBarPlots(phenotypes) {
+    const container = document.getElementById('plot-container'); // Use plot-container to directly display the images
+    container.innerHTML = ''; // Clear any existing content
+    let availablePhenotypes = [];
+    const rowDiv = document.createElement('div'); // Create a container for the row
+    rowDiv.className = 'image-row'; // Apply row styling
+    const exists = []
+    phenotypes.forEach(phenotype => {
+        if (!phenotype || phenotype.trim() === "" || phenotype === "undefined") {
+            console.log("Skipping undefined or empty phenotype");
+            return;
+        }
+
+        console.log(`Attempting to display plot for phenotype: ${phenotype}`);
+
+        const plotContainer = document.createElement('div');
+        plotContainer.className = 'plot-item'; // Apply item styling
+
+        // Create a heading for the phenotype
+        const heading = document.createElement('h3');
+        heading.textContent = `Phenotype: ${phenotype}`;
+        plotContainer.appendChild(heading);
+
+
+        // Try to load both violin plot and bar plot
+        const violinPlotPath = `http://localhost:8003/Plots/${phenotype}.violinplot.png`;
+        const barPlotPath = `http://localhost:8003/Plots/${phenotype}.barplots.png`;
+
+        [barPlotPath, violinPlotPath].forEach(plotPath => {
+            const img = new Image();
+            img.src = plotPath;
+            img.alt = `${phenotype} Plot`;
+            img.className = 'plot-image';
+
+            img.onload = function() {
+                console.log(`Plot loaded successfully: ${img.src}`);
+                plotContainer.appendChild(img);
+                if (plotPath === violinPlotPath) {
+                    violinPlotExists = true;
+                    if (!availablePhenotypes.includes(phenotype)) {
+                        availablePhenotypes.push(phenotype);
+                    }
+                }
+
+                updatePhenotypePlotDescription(availablePhenotypes);
+
+            };
+            
+
+            img.onerror = function() {
+                console.log(`Cohort Not Analyzed: ${plotPath}`);
+            };
+        });
+
+        
+        // Append each plot with heading into the row container
+        rowDiv.appendChild(plotContainer);
+    });
+
+    
+    // Append the row to the main container
+    container.appendChild(rowDiv);
+    
+}
+
+
+    function loadCSVFile() {
+        console.log('Starting to load CSV file...');
+        fetch('http://localhost:8003/saige_exwas_suggestive_regions.csv')
+            .then(response => {
+                console.log('CSV file fetched successfully', response);
+                return response.text();
+            })
+            .then(csvText => {
+                console.log('Parsing CSV text...');
+                const { headers, data } = parseCSV(csvText);
+                console.log('CSV parsed. Headers:', headers);
+                columns = headers;
+                allData = data;
+                cohorts = [...new Set(allData.map(row => row.cohort))];
+                console.log('Unique Cohorts:', cohorts);
+                phenotypes = [...new Set(allData.map(row => row.phenotype))];
+            console.log('Unique Phenotypes:', phenotypes);
+
+            // Now call the function to display bar plots for each phenotype
+
+                renderSideMenu();
+                updateFilterOptions();
+                showDefaultView(); // Show default view initially
+            })
+            .catch(error => {
+                console.error('Error fetching the CSV file:', error);
+                // Display an error message to the user
+                document.getElementById('results-filter-submenu').innerHTML = '<p>Error loading cohorts. Please try again later.</p>';
+            });
+    }
+
+
+    function toggleSubCohorts(cohortGroup) {
+        const subCohortsDiv = document.getElementById(`${cohortGroup}-subcohorts`);
+        subCohortsDiv.style.display = subCohortsDiv.style.display === 'none' ? 'block' : 'none';
+    }
+
+    function renderSideMenu() {
+        const submenu = document.getElementById('results-filter-submenu');
+        submenu.innerHTML = ''; // Clear existing content
+
+        const cohortGroups = {
+            'AFR': ['ALL', 'M', 'F'],
+            'EUR': ['ALL', 'M', 'F'],
+            'AMR': ['ALL', 'M', 'F'],
+            'EAS': ['ALL', 'M', 'F']
+        };
+
+        for (const [cohortGroup, subCohorts] of Object.entries(cohortGroups)) {
+            const cohortGroupDiv = document.createElement('div');
+            cohortGroupDiv.className = 'cohort-group';
+
+            const cohortGroupLink = document.createElement('a');
+            cohortGroupLink.href = '#';
+            cohortGroupLink.textContent = cohortGroup;
+            cohortGroupLink.onclick = (e) => {
+                e.preventDefault();
+                toggleSubCohorts(cohortGroup);
+            };
+            cohortGroupDiv.appendChild(cohortGroupLink);
+
+            const subCohortDiv = document.createElement('div');
+            subCohortDiv.id = `${cohortGroup}-subcohorts`;
+            subCohortDiv.className = 'subcohorts';
+            subCohortDiv.style.display = 'none';
+
+            subCohorts.forEach(subCohort => {
+                const subCohortLink = document.createElement('a');
+                subCohortLink.href = '#';
+                subCohortLink.textContent = subCohort;
+                subCohortLink.className = 'subcohort-link';
+                subCohortLink.onclick = (e) => {
+                    e.preventDefault();
+                    showCohort(`${cohortGroup}_${subCohort}`);
+                };
+                subCohortDiv.appendChild(subCohortLink);
+            });
+
+            cohortGroupDiv.appendChild(subCohortDiv);
+            submenu.appendChild(cohortGroupDiv);
+        }
+
+        submenu.style.display = 'block';
+    }
+
+    function updatePagination(totalRows) {
+        const rowsPerPage = 10;
+        const totalPages = Math.ceil(totalRows / rowsPerPage);
+        const currentPage = 1;
+
+        document.getElementById('page-info').innerText = `Page ${currentPage} of ${totalPages}`;
+        document.getElementById('first-page').disabled = currentPage === 1;
+        document.getElementById('prev-page').disabled = currentPage === 1;
+        document.getElementById('next-page').disabled = currentPage === totalPages;
+        document.getElementById('last-page').disabled = currentPage === totalPages;
+    }
+
+//     function loadAnalysisDescriptions() {
+//     fetch('analysis_descriptions.json')  // Assuming your JSON file has the cohort descriptions
+//         .then(response => response.json())
+//         .then(data => {
+//             const container = document.getElementById('cards-container');
+//             container.innerHTML = '';
+
+//             data.forEach(description => {
+//                 // Create a card for each phenotype description
+//                 const card = document.createElement('div');
+//                 card.className = 'card';
+//                 card.innerHTML = `
+//                     <h3>Phenotype: ${description.phenotype}</h3>
+//                     <p>Mean: ${description.mean}</p>
+//                     <p>STD: ${description.std}</p>
+//                     <p>Min: ${description.min}</p>
+//                     <p>25th %ile: ${description.percentile_25}</p>
+//                     <p>Median: ${description.median}</p>
+//                     <p>75th %ile: ${description.percentile_75}</p>
+//                     <p>Max: ${description.max}</p>
+//                 `;
+
+//                 // Construct the path for the bar plot image using phenotype
+//                 const barPlotFileName = `${description.phenotype}.barplots.png`;
+//                 const barPlotPath = `http://localhost:8003/Plots/${barPlotFileName}`;
+                
+//                 // Add an image element for the bar plot
+//                 const img = document.createElement('img');
+//                 img.src = barPlotPath;
+//                 img.alt = `${description.phenotype} Bar Plot`;
+//                 img.className = 'plot-image';
+//                 img.onerror = function() {
+//                     this.onerror = null;
+//                     this.src = '/path/to/placeholder-image.png';  // Add a placeholder if image not found
+//                     this.alt = 'Bar plot not found';
+//                 };
+
+//                 card.appendChild(img);
+//                 container.appendChild(card);
+//             });
+//         })
+//         .catch(error => console.error('Error fetching the JSON file:', error));
+// }
+function loadAnalysisDescriptions() {
+    fetch('http://localhost:8003/analysis_descriptions.json') // Replace with actual path to your JSON data
+        .then(response => response.json())
+        .then(data => {
+            // Clear the plot container to ensure no previous content is visible
+            const container = document.getElementById('plot-container');
+            container.innerHTML = ''; // Clear previous content
+
+            // Now display the phenotype bar/violin plots using the same logic from displayPhenotypeBarPlots
+            const phenotypes = data.map(item => item.phenotype); // Assuming the data contains a "phenotype" field
+            displayPhenotypeBarPlots(phenotypes); // This function will handle the image display
+
+        })
+        .catch(error => console.error('Error fetching the JSON file:', error));
+}
+
+
+
+    window.filterCards = function() {
+        const filterValue = document.getElementById('filter-input').value.toUpperCase();
+        const cards = document.querySelectorAll('#cards-container .card');
+        cards.forEach(card => {
+            const cohort = card.querySelector('h3').textContent.toUpperCase();
+            if (cohort.includes(filterValue)) {
+                card.style.display = 'block';
+            } else {
+                card.style.display = 'none';
+            }
+        });
+    }
+
+    function loadPlotManifest() {
+        fetch('plots_manifest_1.csv')
+            .then(response => response.text())
+            .then(csvText => {
+                const { headers, data } = parseCSV(csvText);
+                plotManifest = data;
+                updatePlotFilterOptions();
+            })
+            .catch(error => console.error('Error fetching the plot manifest CSV file:', error));
+    }
+
+    function updateFilterOptions() {
+        const phenotypes = [...new Set(allData.map(row => row.phenotype))];
+        const groupTests = [...new Set(allData.map(row => row.annot))];
+        const mafs = [...new Set(allData.map(row => row.max_maf))];
+
+        renderFilterDropdown('phenotype-select', phenotypes, 'All phenotypes');
+        renderFilterDropdown('grouptest-select', groupTests, 'All annot');
+        renderFilterDropdown('maf-select', mafs, 'All max_maf');
+    }
+
+    function updatePlotFilterOptions() {
+        const phenotypes = [...new Set(plotManifest.map(row => row.phenotype))];
+        const groupTests = [...new Set(plotManifest.map(row => row.grouptest))];
+        const mafs = [...new Set(plotManifest.map(row => row.maf))];
+        const analysisTypes = ['regions', 'singles', 'cauchy'];
+
+        renderFilterDropdown('plot-phenotype-select', phenotypes, 'All phenotypes');
+        renderFilterDropdown('plot-grouptest-select', groupTests, 'All group tests');
+        renderFilterDropdown('plot-maf-select', mafs, 'All MAFs');
+        renderFilterDropdown('plot-analysis-type-select', analysisTypes, 'All analysis types');
+    }
+
+    function renderFilterDropdown(id, options, defaultText) {
+        const select = document.getElementById(id);
+        select.innerHTML = `<option value="">${defaultText}</option>`;
+        options.forEach(option => {
+            select.innerHTML += `<option value="${option}">${option}</option>`;
+        });
+    }
+
+    function renderPlots() {
+        const plotContainer = document.getElementById('plot-container');
+        plotContainer.innerHTML = '';
+
+        const relevantPlots = plotManifest.filter(plot => 
+            plot.cohort === selectedCohort &&
+            (selectedPlotPhenotype === '' || plot.phenotype === selectedPlotPhenotype) &&
+            (selectedPlotGroupTest === '' || plot.grouptest === selectedPlotGroupTest) &&
+            (selectedPlotMaf === '' || plot.maf === selectedPlotMaf) &&
+            plot.plots_file_present === 'True'
+        );
+
+        relevantPlots.forEach(plot => {
+            const img = document.createElement('img');
+            img.src = plot.expected_plots_file;
+            img.alt = `${plot.plot_types} plot`;
+            img.className = 'plot-image';
+            plotContainer.appendChild(img);
+        });
+
+        if (relevantPlots.length === 0) {
+            plotContainer.innerHTML = '<p>No plots available for the selected filters.</p>';
+        }
+    }
+
+    // Initialize the page
+    loadCSVFile();
+    loadAnalysisDescriptions();
+    loadPlotManifest();
+});
+</script>
+</body>
+</html>

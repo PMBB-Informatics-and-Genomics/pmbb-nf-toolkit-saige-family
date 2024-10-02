@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title>ExWAS Methods Summary</title>
+    <link crossorigin="anonymous" href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/css/bootstrap.min.css" integrity="sha384-4bw+/aepP/YC94hEpVNVgiZdgIC5+VKNBQNGCHeKRQN+PtmoHDEXuppvnDJzQIu9" rel="stylesheet">
+    <script crossorigin="anonymous" integrity="sha384-HwwvtgBNo3bZJJLYd8oVXjrBZt8cqVSpeBNS5n7C8IVInixGAoxmnlMuBnhbgrkm" src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.1/dist/js/bootstrap.bundle.min.js"></script>
+    <meta charset="utf-8" content="width=device-width" name="viewport">
+  </head>
+  <body>
+    <h1>ExWAS Methods Summary</h1>
+    <div>
+      <h2>Software Versions</h2>
+      <p>SAIGE Version: wzhou88/saige:1.2.0</p>
+      <p>Python .exe: /opt/conda/bin/python</p>
+      <p>Plink: plink/2.0-20210505</p>
+    </div>
+    <div>
+      <h2>Workflow Set-Up</h2>
+      <p>Cohorts: PMBB_EUR_ALL,PMBB_EUR_F,PMBB_EUR_M,PMBB_AFR_ALL,PMBB_AFR_F,PMBB_AFR_M</p>
+      <p>	Sex-Stratified Cohorts: PMBB_EUR_F, PMBB_EUR_M, PMBB_AFR_F, PMBB_AFR_M</p><br>
+      <p>Binary Phenotypes: T2D, AAA</p>
+      <p>Quantitative Phenotypes: BMI_median, LDL_median</p><br>
+    </div>
+    <div>
+      <h2>Main Input Files</h2>
+      <p>Phenotype and Covariate csv: /project/pmbb_codeworks/datasets/CodeWorks_Test_Data/cleaned_test_pheno_covars.csv</p>
+      <p>Cohort Membership csv: /project/pmbb_codeworks/datasets/PMBB_Extra/Sample_Lists/Exome_sample_table.csv</p>
+      <p>Sample ID Column: PMBB_ID</p>
+    </div>
+    <div>
+      <h2>Pre-Step 1 Plink QC</h2>
+      <p>Plink Prefix: /project/pmbb_codeworks/datasets/PMBB-2.0_exome_GL_norm/plink/PMBB-Release-2020-2.0_genetic_exome_GL_norm</p>
+      <p>Min MAF: 0.01</p>
+      <p>Max Missingness per Variant: 0.01</p>
+      <p>MAX HWE P-Value: 1e-06</p>
+    </div><br>
+    <div>
+      <h2>SAIGE Step 1 Configuration:</h2>
+      <p>Step 1 Script Path: /usr/local/bin/step1_fitNULLGLMM.R</p>
+      <p>Categorical Covariates: SEX</p>
+      <p>	Sex-Stratified Categorical Covariates: </p>
+      <p>Continuous Covariates: DATA_FREEZE_AGE, Exome_PC1, Exome_PC2, Exome_PC3, Exome_PC4</p>
+      <p>	Sex-Stratified Continuous Covariates: DATA_FREEZE_AGE, Exome_PC1, Exome_PC2, Exome_PC3, Exome_PC4</p><br>
+    </div>
+    <div>
+      <h2>SAIGE-GENE (Step 2) Configuration:</h2>
+      <p>Step 2 Script Path: /usr/local/bin/step2_SPAtests.R</p>
+      <p>Exome Plink Prefix: /project/pmbb_codeworks/datasets/PMBB-2.0_exome_GL_norm/plink/PMBB-Release-2020-2.0_genetic_exome_GL_norm</p>
+      <p>Chr-Separated Group File Path: /project/pmbb_codeworks/datasets/New_VEP_Annotations_2.0/SAIGE_Sets/subset.</p><br>
+      <p>Min MAF: 0</p>
+      <p>Min MAC: 0.5</p>
+      <p>Use Firth?: TRUE</p>
+      <p>Firth Cutoff: 0.1</p>
+      <p>Leave-One-Chr-Out (LOCO): FALSE</p><br>
+      <h3>Gene Burden Variant Criteria:</h3>
+      <p>Max MAF Cutoffs:</p>
+      <ul>
+        <li>0.001</li>
+      </ul>
+      <p>Annotation Groups:</p>
+      <ul>
+        <li>pLoF</li>
+      </ul>
+    </div>
+    <div>
+      <h2>Post-Processing Configuration:</h2>
+      <p>Gene Coordinates File: /project/pmbb_codeworks/datasets/ENSEMBL/homo_sapiens_111_b38.txt</p>
+      <p>P Threshold for Top Hits: 1e-05</p>
+    </div>
+  </body>
+</html>

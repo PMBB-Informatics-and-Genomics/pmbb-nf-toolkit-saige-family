@@ -1,0 +1,2 @@
+cohort,phenotype,Group,max_MAF,Region,Pvalue,Pvalue_Burden,Pvalue_SKAT,BETA_Burden,SE_Burden,MAC,Number_rare,Number_ultra_rare,results_file,regions_manhattan,regions_qq
+PMBB_EUR_ALL,LDL_median,pLoF,0.001,ENSG00000015475,0.7938949309973,0.7938949309973,0.7938949309973,0.195694065291947,0.749050378139439,3,0,3,PMBB_EUR_ALL.LDL_median.exwas_regions.saige.gz,Plots/PMBB_EUR_ALL.LDL_median.pLoF.maf0-001.regions.manhattan.png,Plots/PMBB_EUR_ALL.LDL_median.pLoF.maf0-001.regions.qq.png
