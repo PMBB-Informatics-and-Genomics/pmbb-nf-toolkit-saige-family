@@ -1,0 +1,10 @@
+GENE1	var	rs108	rs392	rs405	rs466	rs584	rs710	rs764	rs909	rs1140	rs1424
+GENE1	anno	missense	missense	lof	missense	missense	missense	lof	missense	lof	missense
+GENE2	var	rs1514	rs1603	rs1605	rs1611	rs1640	rs1857	rs1977	rs1989	rs2134	rs2295
+GENE2	anno	missense	missense	missense	missense	missense	missense	missense	missense	missense	lof
+GENE3	var	rs2296	rs2619	rs2686	rs2690	rs2695	rs2766	rs2952	rs3368	rs3975	rs4104
+GENE3	anno	lof	missense	missense	missense	missense	lof	missense	lof	missense	lof
+GENE4	var	rs4125	rs4344	rs4531	rs4602	rs4752	rs5105	rs5194	rs5247	rs5276	rs6008
+GENE4	anno	lof	lof	missense	lof	missense	lof	missense	lof	missense	lof
+GENE5	var	rs6080	rs6486	rs6660	rs6741	rs7073	rs7095	rs7209
+GENE5	anno	lof	missense	lof	lof	lof	missense	lof

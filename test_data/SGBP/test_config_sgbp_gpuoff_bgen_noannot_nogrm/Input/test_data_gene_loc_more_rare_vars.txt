@@ -1,0 +1,10 @@
+gene_id chromosome  seq_region_start    seq_region_end  gene_symbol
+GENE1   1   1   100  GS1
+GENE2   1   101 200 GS2
+GENE3   1   201 300 GS3
+GENE4   1   301 400 GS4
+GENE5   1   401 500 GS5
+GENE6   2   1  100 GS6
+GENE7   2   101  200 GS7
+GENE8   2   201  300 GS8
+GENE9   2   301  400 GS9

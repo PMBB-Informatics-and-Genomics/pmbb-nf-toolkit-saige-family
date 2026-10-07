@@ -1,0 +1,8 @@
+GENE6	var	rs7735	rs7820	rs8387	rs8848	rs8931	rs9095	rs9358	rs9510	rs9549	rs9751
+GENE6	anno	missense	lof	missense	lof	missense	missense	lof	missense	missense	missense
+GENE7	var	rs9780	rs10285	rs11022	rs11069	rs11173	rs11298	rs11422	rs11627	rs11791	rs11883
+GENE7	anno	missense	missense	lof	lof	lof	lof	missense	missense	lof	lof
+GENE8	var	rs12145	rs12197	rs12225	rs12230	rs12298	rs12635	rs12702	rs12777	rs12788	rs13298
+GENE8	anno	lof	missense	missense	missense	missense	lof	lof	missense	lof	missense
+GENE9	var	rs13516	rs13560	rs13622	rs13709	rs13799	rs13827
+GENE9	anno	lof	lof	lof	lof	missense	lof
