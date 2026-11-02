@@ -1,0 +1,3 @@
+gene_id chromosome  seq_region_start    seq_region_end  gene_symbol
+GENE1   1   1   90  GS1
+GENE2   2   91  100 GS2
