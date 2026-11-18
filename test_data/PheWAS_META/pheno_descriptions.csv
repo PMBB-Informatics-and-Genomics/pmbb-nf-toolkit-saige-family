@@ -1,0 +1,7 @@
+PHENO,DESCRIPTION,CATEGORY
+y_bin1,Binary outcome 1,cat_a
+y_bin2,Binary outcome 2,cat_a
+008,Intestinal infectious diseases,infectious
+y_quant1,Quantitative outcome 1,cat_b
+y_quant2,Quantitative outcome 2,cat_b
+exp_bin,Binary exposure as outcome,cat_c

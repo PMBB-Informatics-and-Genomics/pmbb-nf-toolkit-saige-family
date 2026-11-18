@@ -1,0 +1,4 @@
+exposure	type	transform	min	max	scale	n_nonmissing	n_exposed
+exp_bin	binary	none	0.0	1.0	1.0	1000	280
+exp_cont	continuous	none	0.05	21.1	0.0947	1000	
+exp__dbl	binary	none	0.0	1.0	1.0	1000	280
